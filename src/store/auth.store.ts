@@ -2,7 +2,7 @@ import { IUser } from "interfaces/auth.interface";
 import create from "zustand";
 
 interface IAuthStore {
-	user: IUser | undefined;
+	user: IUser;
 	setUser: (user: IUser) => void;
 }
 

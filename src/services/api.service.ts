@@ -1,3 +1,4 @@
+import { IUser } from "interfaces/auth.interface";
 import { ILoginForm } from "./../interfaces/auth.interface";
 import api, { responseBody } from "config/axios.config";
 import requestHeader from "utils/request_header";
@@ -8,8 +9,8 @@ const requests = {
 };
 
 const apiService = {
-	login: (credentials: ILoginForm) => requests.post(`/api/auth/login`, credentials, requestHeader()),
-	getUser: () => requests.get(`/api/auth/user`, requestHeader()),
+	login: (creds: ILoginForm): Promise<{ token: string }> => requests.post(`/api/auth/login`, creds, requestHeader()),
+	getUser: (): Promise<IUser> => requests.get(`/api/auth/user`, requestHeader()),
 };
 
 export default apiService;

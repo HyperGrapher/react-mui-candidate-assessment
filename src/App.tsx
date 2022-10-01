@@ -19,14 +19,23 @@ function App() {
   const setUser = useAuthStore(store => store.setUser)
 
   async function getUser() {
-    const user = await apiService.getUser()
-    setUser(user);
+
+    try {
+      const user = await apiService.getUser()
+      console.log(user);
+      setUser(user);
+    } catch (error: any) {
+      setUser(undefined);
+      navigate('/login', { replace: true })
+    }
   }
+
 
   useEffect(() => {
 
     authService.token$.subscribe(token => {
       if (token) getUser()
+
     })
 
   }, [])

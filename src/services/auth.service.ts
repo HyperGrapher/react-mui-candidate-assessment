@@ -6,6 +6,7 @@ const tokenSubject = new BehaviorSubject(JSON.parse(localStorage.getItem("token"
 
 export const authService = {
 	login,
+	logout,
 	token$: tokenSubject.asObservable(),
 	get tokenValue() {
 		return tokenSubject.value;
@@ -23,4 +24,10 @@ async function login(credentials: ILoginForm) {
 		console.error(error);
 		return false;
 	}
+}
+
+// Clean up and navigate
+function logout() {
+	localStorage.clear();
+	tokenSubject.next(null);
 }

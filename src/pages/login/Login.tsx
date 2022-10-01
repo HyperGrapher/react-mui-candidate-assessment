@@ -41,7 +41,7 @@ const Login: React.FC = () => {
 
         const success = await authService.login(credentials)
 
-        if (success) navigate('/');
+        if (success) navigate('/', {replace: true});
         else console.log("OH NO!");
 
     }

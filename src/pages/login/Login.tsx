@@ -1,6 +1,7 @@
 import { TextField, Stack, Button, Container, Typography, InputAdornment } from '@mui/material';
 import { TextFieldError, TextFieldWrapper } from 'components/styled/TextFieldWrapper';
 import React, { useState } from 'react';
+import { Helmet } from "react-helmet-async";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { FloatIcon } from 'components/assets/icons';
 import { useForm } from "react-hook-form";
@@ -43,6 +44,10 @@ const Login: React.FC = () => {
 
     return (
         <Container>
+
+            <Helmet>
+                <title>Please Login</title>
+            </Helmet>
 
             <Stack height={'100vh'} flexDirection={'column'}>
 

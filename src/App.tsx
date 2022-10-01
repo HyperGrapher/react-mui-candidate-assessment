@@ -6,6 +6,7 @@ import AnimatedPageContainer from 'components/animated-page/AnimatedPage';
 import { appRoutes } from 'config/app_routes';
 import Home from 'pages/home/Home';
 import Detail from 'pages/detail/Detail';
+import Login from 'pages/login/Login';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
           <Route path={appRoutes.HOME} element={<AnimatedPageContainer />}>
             <Route index element={<Home />} />
             <Route path={appRoutes.BILL_DETAIL} element={<Detail />} />
+            <Route path={appRoutes.LOGIN} element={<Login />} />
           </Route>
         </Routes>
       </AnimatePresence>

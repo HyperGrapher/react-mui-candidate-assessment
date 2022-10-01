@@ -1,15 +1,8 @@
 
-export const IcoFlag = () => {
+export function FloatIcon() {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
-        </svg>
-    )
-}
-export const IcoHashtag = () => {
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+        <svg width="92" height="19" viewBox="0 0 92 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.3579 5.35V0.499999L0.48291 0.499999L0.48291 18H5.48291L5.48291 12.475L11.2329 12.475L11.2329 7.625H5.48291L5.48291 5.35H11.3579ZM23.3491 13.15L23.3491 0.499999H18.3491L18.3491 18H29.0991V13.15H23.3491ZM43.4981 18.4C48.6731 18.4 52.7731 14.425 52.7731 9.25C52.7731 4.075 48.6731 0.0999995 43.4981 0.0999995C38.3231 0.0999995 34.2231 4.075 34.2231 9.25C34.2231 14.425 38.3231 18.4 43.4981 18.4ZM43.4981 13.5C41.0231 13.5 39.2231 11.675 39.2231 9.25C39.2231 6.825 41.0231 5 43.4981 5C45.9731 5 47.7731 6.825 47.7731 9.25C47.7731 11.675 45.9731 13.5 43.4981 13.5ZM69.1382 18H74.5132L68.9382 0.499999L63.0882 0.499999L57.5132 18H62.8882L63.4882 15.75H68.5382L69.1382 18ZM64.5632 11.75L66.0132 6.375L67.4632 11.75H64.5632ZM91.522 0.499999L78.272 0.499999V5.35L82.397 5.35V18H87.397V5.35H91.522V0.499999Z" fill="#002869"/>
         </svg>
     )
 }
@@ -18,17 +11,6 @@ export const IcoCash = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-    )
-}
-
-type IcoCheckCircleProps = {
-    color?: string;
-}
-export const IcoCheckCircle: React.FC<IcoCheckCircleProps> = ({ color }) => {
-    return (
-        <svg style={{ color }} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
     )
 }

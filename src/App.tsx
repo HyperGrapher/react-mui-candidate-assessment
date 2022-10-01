@@ -10,6 +10,7 @@ import { authService } from 'services/auth.service';
 import useAuthStore from 'store/auth.store';
 import { useNavigate } from 'react-router-dom';
 import apiService from 'services/api.service';
+import ProtectedRoute from 'components/protected-route/ProtectedRoute';
 
 function App() {
 
@@ -26,8 +27,6 @@ function App() {
 
     authService.token$.subscribe(token => {
       if (token) getUser()
-      else navigate("/login")
-
     })
 
   }, [])
@@ -37,8 +36,12 @@ function App() {
       <AnimatePresence mode="wait">
         <Routes location={loc} key={loc.pathname}>
           <Route path={appRoutes.HOME} element={<AnimatedPageContainer />}>
-            <Route index element={<Home />} />
-            <Route path={appRoutes.BILL_DETAIL} element={<Detail />} />
+            {/* PROTECTED ROUTES */}
+            <Route element={<ProtectedRoute />}>
+              <Route index element={<Home />} />
+              <Route path={appRoutes.BILL_DETAIL} element={<Detail />} />
+            </Route>
+            {/* PUBLIC ROUTES */}
             <Route path={appRoutes.LOGIN} element={<Login />} />
           </Route>
         </Routes>

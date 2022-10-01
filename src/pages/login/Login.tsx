@@ -10,6 +10,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { IcoKey, IcoMail } from 'components/assets/icons';
 import { ILoginForm } from 'interfaces/auth.interface';
 import { capitalizeFirstLetter } from 'utils/capitalize';
+import { authService } from 'services/auth.service';
+import { useNavigate } from 'react-router-dom';
 
 
 const validationSchema = yup.object({
@@ -23,27 +25,29 @@ const Login: React.FC = () => {
     const isKeyboardOpen = useMediaQuery('(max-height:440px)');
     const isDesktop = useMediaQuery('(min-width:1024px)');
     const [error, setError] = useState(false)
+    const navigate = useNavigate()
 
-    const { register, handleSubmit, formState: { errors, isValid, isSubmitting, isSubmitSuccessful } } = useForm<ILoginForm>({
-        resolver: yupResolver(validationSchema),
-        reValidateMode: 'onChange',
-        mode: 'all',
-    });
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isValid, isSubmitting, isSubmitSuccessful } } = useForm<ILoginForm>({
+            resolver: yupResolver(validationSchema),
+            reValidateMode: 'onChange',
+            mode: 'all',
+        });
 
     const attemptLogin = async (credentials: ILoginForm) => {
         console.log(credentials);
 
-        // mock server login wait
-        await new Promise<void>((resolve, reject) => {
-            setTimeout(() => {
-                return resolve()
-            }, 3000);
-        })
+        const success = await authService.login(credentials)
+
+        if (success) navigate('/');
+        else console.log("OH NO!");
 
     }
 
     return (
-        <Container>
+        <Container maxWidth="xs">
 
             <Helmet>
                 <title>Please Login</title>
@@ -52,12 +56,13 @@ const Login: React.FC = () => {
             <Stack height={'100vh'} flexDirection={'column'}>
 
                 <header>
+                    {/* 
+                        on mobile device if keyboard is open assign 
+                        lesser padding and animate transition.
+                    */}
                     <Stack
                         justifyContent={'center'}
                         alignItems={'center'}
-                        // on mobile if keyboard is open assign 
-                        // lesser padding and animate transitions
-                        // Also works on landscape mode.
                         sx={{ transition: 'padding 0.4s ease-in-out' }}
                         paddingY={isKeyboardOpen ? "2rem" : '4rem'}>
 
@@ -66,7 +71,7 @@ const Login: React.FC = () => {
                                 transition: 'all 0.4s ease-in-out',
                                 transform: isKeyboardOpen ? "scale(0.8)" : "scale(1)"
                             }}>
-                            <FloatIcon />
+                            <FloatIcon /> <p>{String(isSubmitSuccessful)}</p>
                         </div>
 
                     </Stack>
@@ -87,6 +92,9 @@ const Login: React.FC = () => {
                                 <TextField
                                     label='Email'
                                     type='email'
+                                    error={!!errors.email}
+                                    helperText={!!errors.email &&
+                                        capitalizeFirstLetter(errors.email?.message)}
                                     disabled={isSubmitting}
                                     autoFocus
                                     variant='outlined'
@@ -101,11 +109,6 @@ const Login: React.FC = () => {
                                     }}
                                 />
 
-                                {errors.email &&
-                                    <TextFieldError>
-                                        {capitalizeFirstLetter(errors.email?.message)}
-                                    </TextFieldError>
-                                }
                             </TextFieldWrapper>
 
                             <TextFieldWrapper>
@@ -113,6 +116,9 @@ const Login: React.FC = () => {
                                 <TextField
                                     label='Password'
                                     type='password'
+                                    error={!!errors.password}
+                                    helperText={!!errors.password &&
+                                        capitalizeFirstLetter(errors.password?.message)}
                                     disabled={isSubmitting}
                                     autoComplete='current-password'
                                     fullWidth
@@ -126,11 +132,6 @@ const Login: React.FC = () => {
                                     }}
                                 />
 
-                                {errors.password &&
-                                    <TextFieldError>
-                                        {capitalizeFirstLetter(errors.password?.message)}
-                                    </TextFieldError>
-                                }
                             </TextFieldWrapper>
 
                             {error &&

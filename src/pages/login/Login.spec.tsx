@@ -70,7 +70,7 @@ describe('Login.tsx Test Suite', () => {
             expect(getByLabelText('Password')).not.toBe('')
             expect(getByText('Login')).toBeDisabled();
             expect(getByText('Login')).toHaveProperty('disabled', true)
-            
+
 
         })
 
@@ -84,13 +84,12 @@ describe('Login.tsx Test Suite', () => {
             const password = screen.getByLabelText('Password', { exact: false }) as HTMLInputElement;
 
             user.type(email, 'some@email.com')
-            user.type(password, '123456789121212121243434343435656')
+            user.type(password, '123456789')
 
-            
             expect(getByLabelText('Email')).not.toBe('')
             expect(getByLabelText('Password')).not.toBe('')
             expect(getByText('Login')).toHaveAttribute('disabled', "")
-            
+
 
         })
 
@@ -98,24 +97,39 @@ describe('Login.tsx Test Suite', () => {
     })
 
 
+    describe("TextFields", () => {
 
-    it('should assert Email textfiled has label and in the document', () => {
+        it('should assert Email and Password textfields have label and in the document', () => {
 
-        render(<Router><HelmetProvider><Login /></HelmetProvider></Router>)
-        const element = screen.getByLabelText('Email', { exact: false });
-        expect(element).toBeInTheDocument()
+            render(<Router><HelmetProvider><Login /></HelmetProvider></Router>)
+            const password = screen.getByLabelText('Password', { exact: false });
+            const email = screen.getByLabelText('Email', { exact: false });
+            expect(email).toBeInTheDocument()
+            expect(password).toBeInTheDocument()
+
+        })
+
+
+        it('should assert Password And Email textfields can accept user input', async () => {
+
+            const { getByText, getByLabelText } = render(<Router><HelmetProvider><Login /></HelmetProvider></Router>)
+            const email = screen.getByLabelText('Email', { exact: false }) as HTMLInputElement;
+            const password = screen.getByLabelText('Password', { exact: false }) as HTMLInputElement;
+
+            // user.type(email, 'some@email.com') -> failed
+            // user.type(password, '12345678') -> failed
+
+
+            fireEvent.change(email, { target: { value: 'some@email.com' } });
+            fireEvent.change(password, { target: { value: '12345678' } });
+
+
+            expect((getByLabelText('Email') as HTMLInputElement).value).toBe('some@email.com')
+            expect((getByLabelText('Password') as HTMLInputElement).value).toBe('12345678')
+
+        })
+
 
     })
-
-
-    it('should assert Password textfiled has label and in the document', () => {
-
-        render(<Router><HelmetProvider><Login /></HelmetProvider></Router>)
-        const element = screen.getByLabelText('Password', { exact: false });
-        expect(element).toBeInTheDocument()
-
-    })
-
-
 
 });

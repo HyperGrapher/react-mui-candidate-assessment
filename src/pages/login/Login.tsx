@@ -12,6 +12,8 @@ import { ILoginForm } from 'interfaces/auth.interface';
 import { capitalizeFirstLetter } from 'utils/capitalize';
 import { authService } from 'services/auth.service';
 import { useNavigate } from 'react-router-dom';
+import FadingLoader from 'components/loader/FadingLoader';
+import Loader from 'components/loader/Loader';
 
 
 const validationSchema = yup.object({
@@ -75,7 +77,6 @@ const Login: React.FC = () => {
                                 transform: isKeyboardOpen ? "scale(0.8)" : "scale(1)"
                             }}>
                             <FloatIcon />
-
                         </div>
 
                     </Stack>
@@ -143,12 +144,16 @@ const Login: React.FC = () => {
 
 
                         {(error && !isValid) &&
-                            <Paper 
-                                elevation={0} 
-                                sx={{ background: '#fdf5e2', padding: "0.5rem 1rem", marginBottom: '2rem' }}>
-                                <Typography     
-                                    textAlign={'center'} 
-                                    fontSize={'0.85rem'} 
+                            <Paper
+                                elevation={0}
+                                sx={{
+                                    background: '#fdf5e2',
+                                    padding: "0.5rem 1rem",
+                                    marginBottom: '2rem'
+                                }}>
+                                <Typography
+                                    textAlign={'center'}
+                                    fontSize={'0.85rem'}
                                     color={'#ff3149'}>
                                     Incorrect username or password.
                                 </Typography>
@@ -157,7 +162,11 @@ const Login: React.FC = () => {
 
                         <Button
                             disabled={!isValid || isSubmitting}
-                            sx={{ marginTop: 'auto', marginBottom: '4rem', minHeight: '3rem' }}
+                            sx={{
+                                marginTop: 'auto',
+                                marginBottom: '4rem',
+                                minHeight: '3rem'
+                            }}
                             type="submit"
                             variant="contained"
                             fullWidth>
@@ -168,8 +177,10 @@ const Login: React.FC = () => {
                 </form>
 
 
-
             </Stack>
+
+            {/* Full page fade in overlay with css loader animation */}
+            <FadingLoader state={isSubmitting} />
 
         </Container>
     )

@@ -1,4 +1,4 @@
-import { TextField, Stack, Button, Container, Typography, InputAdornment } from '@mui/material';
+import { TextField, Stack, Button, Container, Typography, InputAdornment, Paper } from '@mui/material';
 import { TextFieldError, TextFieldWrapper } from 'components/styled/TextFieldWrapper';
 import React, { useState } from 'react';
 import { Helmet } from "react-helmet-async";
@@ -23,14 +23,14 @@ const validationSchema = yup.object({
 const Login: React.FC = () => {
 
     const isKeyboardOpen = useMediaQuery('(max-height:440px)');
-    const isDesktop = useMediaQuery('(min-width:1024px)');
     const [error, setError] = useState(false)
     const navigate = useNavigate()
 
     const {
         register,
         handleSubmit,
-        formState: { errors, isValid, isSubmitting, isSubmitSuccessful } } = useForm<ILoginForm>({
+        resetField,
+        formState: { errors, isValid, isSubmitting } } = useForm<ILoginForm>({
             resolver: yupResolver(validationSchema),
             reValidateMode: 'onChange',
             mode: 'all',
@@ -41,8 +41,11 @@ const Login: React.FC = () => {
 
         const success = await authService.login(credentials)
 
-        if (success) navigate('/', {replace: true});
-        else console.log("OH NO!");
+        if (success) navigate('/', { replace: true });
+        else {
+            setError(true)
+            resetField('password')
+        }
 
     }
 
@@ -71,7 +74,8 @@ const Login: React.FC = () => {
                                 transition: 'all 0.4s ease-in-out',
                                 transform: isKeyboardOpen ? "scale(0.8)" : "scale(1)"
                             }}>
-                            <FloatIcon /> <p>{String(isSubmitSuccessful)}</p>
+                            <FloatIcon />
+
                         </div>
 
                     </Stack>
@@ -93,8 +97,6 @@ const Login: React.FC = () => {
                                     label='Email'
                                     type='email'
                                     error={!!errors.email}
-                                    helperText={!!errors.email &&
-                                        capitalizeFirstLetter(errors.email?.message)}
                                     disabled={isSubmitting}
                                     autoFocus
                                     variant='outlined'
@@ -109,6 +111,9 @@ const Login: React.FC = () => {
                                     }}
                                 />
 
+                                {errors.email && <TextFieldError>{capitalizeFirstLetter(errors.email?.message)}</TextFieldError>}
+
+
                             </TextFieldWrapper>
 
                             <TextFieldWrapper>
@@ -117,8 +122,6 @@ const Login: React.FC = () => {
                                     label='Password'
                                     type='password'
                                     error={!!errors.password}
-                                    helperText={!!errors.password &&
-                                        capitalizeFirstLetter(errors.password?.message)}
                                     disabled={isSubmitting}
                                     autoComplete='current-password'
                                     fullWidth
@@ -132,25 +135,25 @@ const Login: React.FC = () => {
                                     }}
                                 />
 
+                                {errors.password && <TextFieldError>{capitalizeFirstLetter(errors.password?.message)}</TextFieldError>}
+
                             </TextFieldWrapper>
-
-                            {error &&
-                                <Typography color={'#ff3149'}>
-                                    You have entered an invalid username or password
-                                </Typography>
-                            }
-
-                            {isDesktop &&
-                                <Typography
-                                    mt={'5rem'}
-                                    textAlign={'center'}
-                                    color={'#0085dd'}>
-                                    Note: UI is designed for mobile devices for the assessment.
-                                </Typography>
-                            }
 
                         </Stack>
 
+
+                        {(error && !isValid) &&
+                            <Paper 
+                                elevation={0} 
+                                sx={{ background: '#fdf5e2', padding: "0.5rem 1rem", marginBottom: '2rem' }}>
+                                <Typography     
+                                    textAlign={'center'} 
+                                    fontSize={'0.85rem'} 
+                                    color={'#ff3149'}>
+                                    Incorrect username or password.
+                                </Typography>
+                            </Paper>
+                        }
 
                         <Button
                             disabled={!isValid || isSubmitting}

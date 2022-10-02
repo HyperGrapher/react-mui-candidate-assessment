@@ -4,16 +4,18 @@ import AnimatedPageContainer from 'components/animated-page/AnimatedPage';
 import AnimatedOverlay from 'components/animated-overlay/AnimatedOverlay';
 
 interface Props {
-    state: boolean
+    show: boolean
 }
 /* Full page css loader with fade in / fade out backdrop */
-const FadingLoader: React.FC<Props> = ({ state }) => (
+const FadingLoader: React.FC<Props> = ({ show }) => (
+
     <AnimatePresence initial={false} mode="wait">
-        {state &&
-            <AnimatedOverlay state={true}>
-                <Loader />
+        {show &&
+            <AnimatedOverlay>
+                <Loader scale={1.15} />
             </AnimatedOverlay>}
     </AnimatePresence >
+
 )
 
 

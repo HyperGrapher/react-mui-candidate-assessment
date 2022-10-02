@@ -1,19 +1,17 @@
-import { TextField, Stack, Button, Container, Typography, InputAdornment, Paper } from '@mui/material';
-import { TextFieldError, TextFieldWrapper } from 'components/styled/TextFieldWrapper';
+import { Stack, Button, Container } from '@mui/material';
 import React, { useState } from 'react';
 import { Helmet } from "react-helmet-async";
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { FloatIcon } from 'components/assets/icons';
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { IcoKey, IcoMail } from 'components/assets/icons';
 import { ILoginForm } from 'interfaces/auth.interface';
-import { capitalizeFirstLetter } from 'utils/capitalize';
 import { authService } from 'services/auth.service';
 import { useNavigate } from 'react-router-dom';
 import FadingLoader from 'components/loader/FadingLoader';
-import Loader from 'components/loader/Loader';
+import ErrorMessage from 'components/error-message/ErrorMessage';
+import LoginHeader from 'components/login-header/LoginHeader';
+import CustomFormField from 'components/form-field/FormField';
 
 
 const validationSchema = yup.object({
@@ -24,7 +22,6 @@ const validationSchema = yup.object({
 
 const Login: React.FC = () => {
 
-    const isKeyboardOpen = useMediaQuery('(max-height:440px)');
     const [error, setError] = useState(false)
     const navigate = useNavigate()
 
@@ -60,29 +57,10 @@ const Login: React.FC = () => {
 
             <Stack height={'100vh'} flexDirection={'column'}>
 
-                <header>
-                    {/* 
-                        on mobile device if keyboard is open assign 
-                        lesser padding and animate transition.
-                    */}
-                    <Stack
-                        justifyContent={'center'}
-                        alignItems={'center'}
-                        sx={{ transition: 'padding 0.4s ease-in-out' }}
-                        paddingY={isKeyboardOpen ? "2rem" : '4rem'}>
-
-                        <div
-                            style={{
-                                transition: 'all 0.4s ease-in-out',
-                                transform: isKeyboardOpen ? "scale(0.8)" : "scale(1)"
-                            }}>
-                            <FloatIcon />
-                        </div>
-
-                    </Stack>
-                </header>
+                <LoginHeader />
 
                 <form style={{ height: '100%' }} onSubmit={handleSubmit(attemptLogin)}>
+
                     <Stack
                         justifyContent={'space-around'}
                         height={'100%'}
@@ -90,75 +68,37 @@ const Login: React.FC = () => {
 
                         <Stack
                             flexDirection={'column'}
-                            gap="2.25rem"
+                            gap={'2.25rem'}
                             marginBottom={'2.25rem'}>
 
-                            <TextFieldWrapper>
-                                <TextField
-                                    label='Email'
-                                    type='email'
-                                    error={!!errors.email}
-                                    disabled={isSubmitting}
-                                    autoFocus
-                                    variant='outlined'
-                                    fullWidth
-                                    {...register('email', { required: true })}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position='start'>
-                                                <IcoMail />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
+                            <CustomFormField
+                                label='Email'
+                                type="email"
+                                autoFocus={true}
+                                isError={!!errors.email}
+                                disabled={isSubmitting}
+                                register={register('email', { required: true })}
+                                errorMsg={errors?.email?.message}
+                                icon={<IcoMail />}
+                            />
 
-                                {errors.email && <TextFieldError>{capitalizeFirstLetter(errors.email?.message)}</TextFieldError>}
+                            <CustomFormField
+                                label='Password'
+                                type="password"
+                                autoFocus={false}
+                                isError={!!errors.password}
+                                disabled={isSubmitting}
+                                register={register('password', { required: true })}
+                                errorMsg={errors?.password?.message}
+                                icon={<IcoKey />}
+                            />
 
-
-                            </TextFieldWrapper>
-
-                            <TextFieldWrapper>
-
-                                <TextField
-                                    label='Password'
-                                    type='password'
-                                    error={!!errors.password}
-                                    disabled={isSubmitting}
-                                    autoComplete='current-password'
-                                    fullWidth
-                                    {...register('password', { required: true, minLength: 6 })}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position='start'>
-                                                <IcoKey />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-
-                                {errors.password && <TextFieldError>{capitalizeFirstLetter(errors.password?.message)}</TextFieldError>}
-
-                            </TextFieldWrapper>
 
                         </Stack>
 
-
-                        {(error && !isValid) &&
-                            <Paper
-                                elevation={0}
-                                sx={{
-                                    background: '#fdf5e2',
-                                    padding: "0.5rem 1rem",
-                                    marginBottom: '2rem'
-                                }}>
-                                <Typography
-                                    textAlign={'center'}
-                                    fontSize={'0.85rem'}
-                                    color={'#ff3149'}>
-                                    Incorrect username or password.
-                                </Typography>
-                            </Paper>
-                        }
+                        <ErrorMessage
+                            state={error && !isValid}
+                            message="Incorrect username or password." />
 
                         <Button
                             disabled={!isValid || isSubmitting}
@@ -172,15 +112,15 @@ const Login: React.FC = () => {
                             fullWidth>
                             Login
                         </Button>
+
                     </Stack>
 
                 </form>
 
-
             </Stack>
 
             {/* Full page fade in overlay with css loader animation */}
-            <FadingLoader state={isSubmitting} />
+            <FadingLoader show={isSubmitting} />
 
         </Container>
     )

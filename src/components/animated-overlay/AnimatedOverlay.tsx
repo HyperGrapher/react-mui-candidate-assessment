@@ -1,13 +1,15 @@
 import ReactDOM from "react-dom";
 import { motion } from "framer-motion";
-import { useLayoutEffect } from "react";
 
 type Props = {
     children: React.ReactNode;
     setModal?: Function,
-    state: boolean,
 }
+/* 
+    Fade-in / Fade-out full page blurred backdrop that accepts a child.
+    Can be used for modals or loader animations.
 
+*/
 const AnimatedOverlay: React.FC<Props> = ({ children, setModal }) => {
 
     return ReactDOM.createPortal(
@@ -29,7 +31,7 @@ const AnimatedOverlay: React.FC<Props> = ({ children, setModal }) => {
                 display: 'grid',
                 placeItems: 'center',
                 backdropFilter: 'blur(2px)',
-                zIndex: '98'
+                zIndex: '99'
             }}
         >
             <motion.div

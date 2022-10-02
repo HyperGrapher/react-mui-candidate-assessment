@@ -1,22 +1,25 @@
 import styled from '@emotion/styled'
 
-const Loader: React.FC = () => (
-        <Ripples >
-            <div></div>
-            <div></div>
-        </Ripples>
-    
+interface Props {
+    scale?: number
+}
+
+const Loader: React.FC<Props> = ({ scale = 1 }) => (
+    <Ripples scale={scale}>
+        <div></div>
+        <div></div>
+    </Ripples>
 )
 
+export default Loader;
 
-export default Loader
 
 const Ripples = styled.div`
 	display: inline-block;
 	position: relative;
 	width: 80px;
 	height: 80px;
-    /* transform: translateY(40px) scale(0.35); */
+    transform: ${(props: Props) => `scale(${props.scale})`};
 
     & div:nth-of-type(2) {animation-delay: -0.5s;}
     & div {

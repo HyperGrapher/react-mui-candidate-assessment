@@ -2,7 +2,7 @@ import { authService } from "services/auth.service";
 import axios, { AxiosResponse } from "axios";
 
 const authAxios = axios.create({
-	baseURL: import.meta.env.VITE_BASE_URL,
+	baseURL: 'https://shy-red-dalmatian-gear.cyclic.app',
 });
 
 authAxios.interceptors.response.use(

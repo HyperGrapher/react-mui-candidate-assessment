@@ -2,7 +2,7 @@ import { authService } from "services/auth.service";
 import axios, { AxiosResponse } from "axios";
 
 const authAxios = axios.create({
-	baseURL: 'https://shy-red-dalmatian-gear.cyclic.app',
+	baseURL: 'https://busy-duck-dress.cyclic.app',
 });
 
 authAxios.interceptors.response.use(

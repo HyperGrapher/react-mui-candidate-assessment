@@ -22,7 +22,7 @@
     "react-helmet-async": "^1.3.0",
     "react-hook-form": "^7.43.9",
     "react-query": "^3.39.3",
-    "react-router-dom": "^6.6.2",
+    "react-router-dom": "^6.11.0",
     "rxjs": "^7.8.0",
     "yup": "^0.32.11",
     "zustand": "^4.3.6"
